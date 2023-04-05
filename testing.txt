@@ -1,0 +1,127 @@
+class Worker implements Executor {
+ ... public void execute(Runnable r) {
+ try {
+ ... }
+ catch (InterruptedException ie) {
+ // postpone response Thread.currentThread().interrupt();
+ }
+ }
+ public Worker(Channel ch, int nworkers) {
+ ... }
+ protected void activate() {
+ Runnable loop = new Runnable() {
+ public void run() {
+ try {
+ for (;
+;
+) {
+ Runnable r = ...;
+ r.run();
+ }
+ }
+ catch (InterruptedException ie) {
+ ... }
+ }
+ }
+;
+ new Thread(loop).start();
+ }
+ }
+
+_____________________________________
+
+sock=socket(AF_INET, SOCK_STREAM, 0);
+ while (1) {
+ newsock=accept(sock, ...);
+ printf("A connection has been accepted\n");
+ pid = fork();
+ }
+
+_____________________________________
+
+int writeDataFromSocketToFile(char *host, int port) {
+ char filename[FILENAME_SIZE];
+ char buffer[BUFFER_SIZE];
+ int socket = openSocketConnection(host, port);
+ if (socket < 0) {
+ printf("Unable to open socket connection");
+ return(FAIL);
+ }
+ if (getNextMessage(socket, filename, FILENAME_SIZE) > 0) {
+ if (openFileToWrite(filename) > 0) {
+ while (getNextMessage(socket, buffer, BUFFER_SIZE) > 0){
+ if (!(writeToFile(buffer) > 0)) break;
+ }
+ }
+ closeFile();
+ }
+ closeSocket(socket);
+ }
+
+_____________________________________
+
+/* process message accepts a two-dimensional character array of the form [length][body] containing the message to be processed */ int processMessage(char **message) {
+ char *body;
+ int length = getMessageLength(message[0]);
+ if (length > 0) {
+ body = &message[1][0];
+ processMessageBody(body);
+ return(SUCCESS);
+ }
+ else {
+ printf("Unable to process message;
+ invalid message length");
+ return(FAIL);
+ }
+ }
+
+_____________________________________
+
+unsigned int length = getMessageLength(message[0]);
+ if ((length > 0) && (length < MAX_LENGTH)) {
+...}
+
+_____________________________________
+
+public void acceptConnections() {
+ try {
+ ServerSocket serverSocket = new ServerSocket(SERVER_PORT);
+ int counter = 0;
+ boolean hasConnections = true;
+ while (hasConnections) {
+ Socket client = serverSocket.accept();
+ Thread t = new Thread(new ClientSocketThread(client));
+ t.setName(client.getInetAddress().getHostName() + ":" + counter++);
+ t.start();
+ }
+ serverSocket.close();
+ }
+ catch (IOException ex) {
+...}
+ }
+
+_____________________________________
+
+public static final int SERVER_PORT = 4444;
+ public static final int MAX_CONNECTIONS = 10;
+ ... public void acceptConnections() {
+ try {
+ ServerSocket serverSocket = new ServerSocket(SERVER_PORT);
+ int counter = 0;
+ boolean hasConnections = true;
+ while (hasConnections) {
+ hasConnections = checkForMoreConnections();
+ Socket client = serverSocket.accept();
+ Thread t = new Thread(new ClientSocketThread(client));
+ t.setName(client.getInetAddress().getHostName() + ":" + counter++);
+ ExecutorService pool = Executors.newFixedThreadPool(MAX_CONNECTIONS);
+ pool.execute(t);
+ }
+ serverSocket.close();
+ }
+ catch (IOException ex) {
+...}
+ }
+
+_____________________________________
+
